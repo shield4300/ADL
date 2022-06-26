@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+<TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="24sp" />
+
+<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+<Button
+                android:id="@+id/increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="105dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:text="Next" />
+
+<Button
+                android:id="@+id/decrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Prev" />
+
+</LinearLayout>
+</LinearLayout>
+</RelativeLayout>
+
+
+
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    int counter=0;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView tv = (TextView) findViewById(R.id.textView);
+        Button add = (Button) findViewById(R.id.increase);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view){
+                counter++;
+                tv.setText(Integer.toString(counter));
+            }
+        });
+        Button sub = (Button) findViewById(R.id.decrease);
+        sub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view){
+                if(counter!=0) {
+                    counter--;
+                    tv.setText(Integer.toString(counter));
+                }
+            }
+        });
+    }
+}

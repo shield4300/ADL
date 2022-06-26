@@ -1,0 +1,108 @@
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+menu_example.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/mail"
+        android:icon="@drawable/ic_mail"
+        android:title="@string/mail" />
+<item android:id="@+id/upload"
+        android:icon="@drawable/ic_upload"
+        android:title="@string/upload"
+        app:showAsAction="ifRoom" />
+<item android:id="@+id/share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share" />
+</menu>
+
+
+
+
+options_menu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<item android:id="@+id/search_item"
+        android:title="Search" />
+<item android:id="@+id/upload_item"
+        android:title="Upload" />
+<item android:id="@+id/copy_item"
+        android:title="Copy" />
+<item android:id="@+id/print_item"
+        android:title="Print" />
+<item android:id="@+id/share_item"
+        android:title="Share" />
+<item android:id="@+id/bookmark_item"
+        android:title="BookMark" />
+</menu>
+
+
+
+
+
+MainActivity.java
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Toast.makeText(this, "Selected Item: " +item.getTitle(), Toast.LENGTH_SHORT).show();
+        switch (item.getItemId()) {
+            case R.id.search_item:
+                // do your code
+                return true;
+            case R.id.upload_item:
+                // do your code
+                return true;
+            case R.id.copy_item:
+                // do your code
+                return true;
+            case R.id.print_item:
+                // do your code
+                return true;
+            case R.id.share_item:
+                // do your code
+                return true;
+            case R.id.bookmark_item:
+                // do your code
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+}

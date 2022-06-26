@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+<ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
+
+
+
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Bitmap bg = Bitmap.createBitmap(720, 1280, Bitmap.Config.ARGB_8888);
+        ImageView iv =(ImageView)findViewById(R.id.imageView);
+        iv.setBackgroundDrawable(new BitmapDrawable(bg));
+        Canvas canvas= new Canvas(bg);
+        Paint paint = new Paint();
+
+        paint.setColor(Color.GREEN);
+        paint.setTextSize(50);
+
+        canvas.drawText("Rectangle", 420, 150, paint);
+        canvas.drawRect(350, 200, 650, 400, paint);
+
+        canvas.drawText("Circle", 100, 150, paint);
+        canvas.drawCircle(150, 300, 100, paint);
+
+        canvas.drawText("Square", 100, 500, paint);
+        canvas.drawRect(50, 520, 350, 820, paint);
+
+        canvas.drawText("Line", 480, 500, paint);
+        canvas.drawLine(520, 540, 520, 900, paint);
+
+        canvas.drawText("Triangle", 100, 910, paint);
+        Path path= new Path();
+        Point a = new Point(100, 950);
+        Point b = new Point(100, 1100);
+        Point c = new Point(400, 1100);
+        path.lineTo(a.x, a.y);
+        path.lineTo(b.x, b.y);
+        path.lineTo(c.x, c.y);
+        path.lineTo(a.x, a.y);
+        path.close();
+        canvas.drawPath(path, paint);
+
+    }
+}

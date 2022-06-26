@@ -1,0 +1,142 @@
+activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+<EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+<Button
+        android:id="@+id/write"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Write Data" />
+<Button
+        android:id="@+id/read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Read Data" />
+<Button
+        android:id="@+id/clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear Data" />
+
+</LinearLayout>
+
+
+
+Mainactivity.java
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
+import android.widget.*;
+import java.io.*;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText edit;
+    Button write, read, clear;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        edit = (EditText) findViewById(R.id.editText);
+        write = (Button) findViewById(R.id.write);
+        read = (Button) findViewById(R.id.read);
+        clear = (Button) findViewById(R.id.clear);
+
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = edit.getText().toString();
+                try {
+                    File folder = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                    }
+                    File f = new File(folder, "myfile.txt");
+                    f.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(f);
+                    OutputStreamWriter osw = new OutputStreamWriter(fos);
+                    osw.append(message);
+                    osw.close();
+                    fos.close();
+                    Toast.makeText(getBaseContext(), "Data written to SD card", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message;
+                String buf = "";
+                try {
+                    File folder = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                    }
+                    File f = new File(folder, "myfile.txt");
+                    FileInputStream fin = new FileInputStream(f);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(fin));
+                    while((message = br.readLine()) != null){
+                        buf += message;
+                    }
+                    edit.setText(buf);
+                    br.close();
+                    fin.close();
+                    Toast.makeText(getBaseContext(), "Data read from SD card", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                edit.setText("");
+            }
+        });
+    }
+}
+
+
+AndroidManifest.xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sdcard">
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SDCard">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
